@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "19032105727",
+    "project_id": "bunyaaddb",
+    "storage_bucket": "bunyaaddb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:19032105727:android:25a7c527966a6ab535a2ca",
+        "android_client_info": {
+          "package_name": "com.bunyaad.bunyaad"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "19032105727-sub6nd3e45qb3pkg57tfq8fj11njsjg6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAngZAc44-_11Ev5Qg9etuvc21ykcLkDlA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "19032105727-sub6nd3e45qb3pkg57tfq8fj11njsjg6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:19032105727:android:35a3abc830f780f635a2ca",
+        "android_client_info": {
+          "package_name": "com.example.bunyaad"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "19032105727-sub6nd3e45qb3pkg57tfq8fj11njsjg6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAngZAc44-_11Ev5Qg9etuvc21ykcLkDlA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "19032105727-sub6nd3e45qb3pkg57tfq8fj11njsjg6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
