@@ -21,6 +21,11 @@ class SellerAccountSettings extends StatefulWidget {
 
 class _SellerAccountSettingsState extends State<SellerAccountSettings> {
   @override
+  TextEditingController userName = new TextEditingController(text: Variables.seller!.userName);
+  TextEditingController city = new TextEditingController(text: Variables.seller!.city);
+  TextEditingController taxId = new TextEditingController(text: Variables.seller!.taxId);
+
+
   TextEditingController nameController = TextEditingController(
       text:
       Variables.isSeller ? Variables.seller!.name : Variables.buyer!.name);
@@ -234,7 +239,11 @@ class _SellerAccountSettingsState extends State<SellerAccountSettings> {
                               if(image!= null){
                                 sellerObject.imageLink = await Controller.saveImage(image!, DateTime.now().microsecondsSinceEpoch.toString());
                               }
+
                               sellerObject.populateSeller(
+                                userName:  userName,
+                                  city:city,
+                                  taxId:  taxId,
                                   businessName: businessNameController,
                                   name: nameController,
                                   phoneNumber: phoneNumberController,

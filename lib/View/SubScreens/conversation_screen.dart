@@ -22,7 +22,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
 
   TextEditingController message = new TextEditingController();
   FocusNode focusNode = new FocusNode();
-  
+
 
   Widget ChatMessageList(){
     return StreamBuilder(
