@@ -1,5 +1,6 @@
 class Seller{
   String userName = "";
+  String businessName = "";
   String name ="";
   String docId ="";
   String email ="";
@@ -7,12 +8,14 @@ class Seller{
   String address = "";
   String city = "";
   String taxId = "";
+  String imageLink = "https://firebasestorage.googleapis.com/v0/b/bunyaaddb.appspot.com/o/defaultImages%2Fperson-icon.png?alt=media&token=8e271d89-2280-4973-9e0c-ba01ee39154f";
   int isSeller = 1;
 
 
   List<dynamic> nameSeller = [];
-  void populateSeller({var userName,var name,var email, var phoneNumber, var address, var city, var taxId}){
+  void populateSeller({var userName,var name,var email, var phoneNumber, var address, var city, var taxId, var businessName}){
     this.userName = userName.text.toString();
+    this.businessName = businessName.text.toString();
     this.name = name.text.toString();
     this.email = email.text.toString();
     this.phoneNumber = phoneNumber.text.toString();
@@ -28,12 +31,14 @@ class Seller{
   void fromJSON( var doc){
     docId = doc["id"];
     name = doc["name"];
+    businessName = doc["businessName"];
     email = doc["email"];
     userName = doc["userName"];
     phoneNumber = doc["phoneNumber"];
     address = doc["address"];
     city = doc["city"];
     taxId = doc["taxId"];
+    imageLink = doc["imageLink"];
     nameSeller = doc["nameSeller"];
   }
   Map<String,dynamic> toJSON(){
@@ -42,12 +47,14 @@ class Seller{
     uploadDoc = {
       "name":name,
       "userName":userName,
+      "businessName":businessName,
       "email":email,
       "isSeller":isSeller,
       "phoneNumber":phoneNumber,
       "address":address,
       "city":city,
       "taxId":taxId,
+      "imageLink":imageLink,
       "nameSeller":nameSeller
     };
     return uploadDoc;

@@ -1,3 +1,4 @@
+import 'package:bunyaad/View/SubScreens/seller_account_settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -71,8 +72,16 @@ class _SellerDashboardState extends State<SellerDashboard> {
               child:Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                buildCard(icon: Icons.home,heading: "Home",onPress: (){
-                  print("Home");
+                buildCard(icon: Icons.home,heading: "Home",onPress: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return
+                          const SellerAccountSettings();
+                      },
+                    ),
+                  );
                 }),
                 SizedBox(width: 24.0,),
                 buildCard(icon: Icons.person,heading: "Buyer Request",onPress: () async {

@@ -21,6 +21,7 @@ class _SellerSignupSimpleState extends State<SellerSignupSimple> {
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController cityController = TextEditingController();
+  TextEditingController businessNameController = TextEditingController();
   TextEditingController taxIdController = TextEditingController();
   bool showPassword = false;
 
@@ -158,6 +159,13 @@ class _SellerSignupSimpleState extends State<SellerSignupSimple> {
                     height: 16,
                   ),
                   TextFormField(
+                    controller: businessNameController,
+                    decoration: Style.fieldsDecoration(hintText: "Business Name"),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  TextFormField(
                     controller: taxIdController,
                     decoration: Style.fieldsDecoration(hintText: "Tax ID"),
                   ),
@@ -175,6 +183,7 @@ class _SellerSignupSimpleState extends State<SellerSignupSimple> {
                           phoneNumber: phoneNumberController,
                           address: addressController,
                           city: cityController,
+                          businessName: businessNameController,
                           taxId: taxIdController
                       );
                       CustomWidget.circularProgressIndicator(context);

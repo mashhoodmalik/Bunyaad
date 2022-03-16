@@ -1,5 +1,7 @@
 import 'package:bunyaad/Model/seller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../Model/variables.dart';
 
@@ -29,5 +31,25 @@ class SellerController {
   static Future<void> updateSeller({required Seller seller}) async {
     await FirebaseFirestore.instance
         .collection("seller").doc(Variables.seller!.docId).update(seller.toJSON());
+    await getSeller(email: seller.email);
+  }
+  static Future<ImageSource?> showImageSource(BuildContext context) async {
+    return showCupertinoModalPopup<ImageSource>(
+        context: context,
+        builder: (context) => CupertinoActionSheet(
+          title: Text("Select an Image Source"),
+          actions: [
+            CupertinoActionSheetAction(
+              onPressed: () =>
+                  Navigator.of(context).pop(ImageSource.camera),
+              child: Text("Camera"),
+            ),
+            CupertinoActionSheetAction(
+              onPressed: () =>
+                  Navigator.of(context).pop(ImageSource.gallery),
+              child: Text("Gallery"),
+            ),
+          ],
+        ));
   }
 }
