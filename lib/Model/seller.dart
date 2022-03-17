@@ -12,7 +12,7 @@ class Seller{
   int isSeller = 1;
 
 
-  List<dynamic> nameSeller = [];
+  List<dynamic> nameS = [];
   void populateSeller({var userName,var name,var email, var phoneNumber, var address, var city, var taxId, var businessName}){
     this.userName = userName.text.toString();
     this.businessName = businessName.text.toString();
@@ -22,11 +22,11 @@ class Seller{
     this.address = address.text.toString();
     this.city = city.text.toString();
     this.taxId = taxId.text.toString();
-    nameSeller = [this.name[0].toLowerCase()];
+    nameS = [this.name[0].toLowerCase()];
     for(int i = 1;i<this.name.length;i++){
-      nameSeller.add(nameSeller.elementAt(i-1)+this.name[i].toLowerCase());
+      nameS.add(nameS.elementAt(i-1)+this.name[i].toLowerCase());
     }
-    print(nameSeller);
+    print(nameS);
 }
   void fromJSON( var doc){
     docId = doc["id"];
@@ -39,7 +39,7 @@ class Seller{
     city = doc["city"];
     taxId = doc["taxId"];
     imageLink = doc["imageLink"];
-    nameSeller = doc["nameSeller"];
+    nameS = doc["nameS"];
   }
   Map<String,dynamic> toJSON(){
     Map<String,dynamic> uploadDoc = Map();
@@ -55,7 +55,7 @@ class Seller{
       "city":city,
       "taxId":taxId,
       "imageLink":imageLink,
-      "nameSeller":nameSeller
+      "nameS":nameS
     };
     return uploadDoc;
   }

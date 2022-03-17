@@ -176,7 +176,6 @@ class _ConversationScreenState extends State<ConversationScreen> {
       color: Colors.white,
       padding: EdgeInsets.symmetric(horizontal: 24,vertical: 16),
       child: Row(
-
         children: [
           Expanded(child: TextFormField(
             focusNode: focusNode,

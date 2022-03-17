@@ -1,10 +1,12 @@
-import 'package:bunyaad/View/SubScreens/seller_buyerrequest_response.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../Controller/chat_controller.dart';
+import '../../Model/chat_group.dart';
 import '../../Model/variables.dart';
 import '../Model/Style.dart';
+import 'conversation_screen.dart';
 import 'create_buyer_request.dart';
 
 class SellerBuyerRequest extends StatefulWidget {
@@ -66,7 +68,7 @@ class _SellerBuyerRequestState extends State<SellerBuyerRequest> {
               padding: EdgeInsets.symmetric(horizontal: 40,vertical: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: [
+                children:[
                   Text("Budget",style: TextStyle(fontWeight: FontWeight.bold),),
                   SizedBox(width: 24,),
                   Text("Action",style: TextStyle(fontWeight: FontWeight.bold),)
@@ -76,9 +78,7 @@ class _SellerBuyerRequestState extends State<SellerBuyerRequest> {
             SizedBox(
               height: MediaQuery.of(context).size.height*0.02,
             ),
-
             Expanded(
-
               child: StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection("buyerRequests")
@@ -102,19 +102,14 @@ class _SellerBuyerRequestState extends State<SellerBuyerRequest> {
                               children: [
                                 Text(document["budget"]),
                                 SizedBox(width: 16,),
-                                TextButton(onPressed: () async {
-                                  await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context){
-                                        return const SellerBuyerRequestResponse();
-                                      },
-                                    ),
-                                  );
+                                TextButton(onPressed: () {
+                                  print("response");
                                 }, child: Text("Response"))
                               ],
                             ),
-                          );}).toList(),
+                          );
+                        }
+                        ).toList(),
                       ) ,
                     );
                   }
