@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:bunyaad/Controller/login_controller.dart';
+import 'package:bunyaad/Model/chat_group.dart';
 import 'package:bunyaad/View/Model/Style.dart';
 import 'package:bunyaad/View/Screens/login_screen.dart';
 import 'package:bunyaad/View/SubScreens/buyer_request.dart';
@@ -10,6 +11,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../SubScreens/home_screen.dart';
 import '../SubScreens/settings.dart';
 import '../Widgets/Search.dart';
+import 'chat_groups.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -119,8 +121,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   );
                 }),
                 SizedBox(width: 24.0,),
-                buildCard(icon: Icons.chat_bubble_outline,heading: "Chat",onPress: (){
-                  print("Chat");
+                buildCard(icon: Icons.chat_bubble_outline,heading: "Chat",onPress: () async {
+                  print("hello");
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return
+                         ChatGroups();
+                      },
+                    ),
+                  );
                 }),
               ],
             ),

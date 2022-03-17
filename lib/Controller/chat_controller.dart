@@ -18,21 +18,32 @@ class ChatController {
         .collection("ChatGroup").doc(chatRoomID).collection("Chats").snapshots();
   }
 
-  static Future<void> createChatGroup(
-      String sellerId, ChatGroup chatGroup
-      ) async{
+  static Future<String> createChatGroup(ChatGroup chatGroup) async{
     DocumentReference ref =  await FirebaseFirestore.instance
         .collection("ChatGroup")
         .add(chatGroup.toJSON());
     ref.update({"chatRoomId":ref.id});
+    return ref.id;
   }
 
-  static Future<void> getChatGroupSeller(
+  static Future<String> getChatGroupSeller(
       String sellerId
       ) async{
-    await FirebaseFirestore.instance
-        .collection("ChatGroup").where("seller", isEqualTo: sellerId).get();
-        // .add(chatGroup.toJSON());
+    QuerySnapshot ref = await FirebaseFirestore.instance
+        .collection("ChatGroup")
+        .where("seller", isEqualTo:sellerId)
+        .get();
+    List<QueryDocumentSnapshot> data = ref.docs;
+    for (int a = 0; a < data.length; a++) {
+      return fromJSON(data[a].data());
+      //return doc!["chatRoomId"];
+    }
+    return "-1";
+  }
+
+  static String fromJSON(var doc) {
+    var Seller = doc["chatRoomId"];
+    return Seller;
   }
   static Future<void> getChatGroupBuyer(
       String buyerId

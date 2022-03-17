@@ -81,7 +81,6 @@ class LoginController {
     List<QueryDocumentSnapshot> data = ref.docs;
     for (int a = 0; a < data.length; a++) {
      return fromJSON(data[a].data());
-
     }
     return false;
   }
@@ -94,9 +93,5 @@ class LoginController {
     } else {
       return false;
     }
-    // name = doc["name"];
-    // email = doc["email"];
-    // userName = doc["userName"];
-    // nameS = doc["nameS"];
   }
 }

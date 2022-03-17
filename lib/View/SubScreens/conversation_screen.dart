@@ -10,9 +10,10 @@ import '../Model/Style.dart';
 import '../Screens/login_screen.dart';
 
 class ConversationScreen extends StatefulWidget {
-  final String chatRoomId = "fZw5vmM5ecgP0lcFuXIj";
-  final String userId = "mC6NoDTCrgi4PSsfoQJx";
+  String chatRoomId = "fZw5vmM5ecgP0lcFuXIj";
+  String userId = "mC6NoDTCrgi4PSsfoQJx";
   // final String sellerId= "RjkHYF2O7uMz8ojYode1";
+  ConversationScreen({required this.chatRoomId,required this.userId});
 
   _ConversationScreenState createState() => _ConversationScreenState();
 }

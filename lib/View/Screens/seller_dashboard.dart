@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../Controller/login_controller.dart';
 import '../Model/Style.dart';
 import '../SubScreens/seller_buyerrequest.dart';
+import 'chat_groups.dart';
 import 'login_screen.dart';
 
 class SellerDashboard extends StatefulWidget {
@@ -106,22 +107,21 @@ class _SellerDashboardState extends State<SellerDashboard> {
                   print("My Gigs");
                 }),
                 SizedBox(width: 24.0,),
-                buildCard(icon: Icons.chat_bubble_outline,heading: "Chat",onPress: (){
-                  print("Chat");
+                buildCard(icon: Icons.chat_bubble_outline,heading: "Chat",onPress: () async {
+                  print("Chat2");
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return
+                          ChatGroups();
+                      },
+                    ),
+                  );
                 }),
               ],
             ),
             SizedBox(height: 48,),
-            /*Container(
-              height: 600,
-              child: ListView.separated(
-                  itemCount: 5,
-                  itemBuilder: (BuildContext context,index){
-                return buildDescriptionCard(context);
-              }, separatorBuilder: (BuildContext context, int index) {
-                    return Container(height: 8,);
-              },),
-            )*/
           ],
         ),
       ),
