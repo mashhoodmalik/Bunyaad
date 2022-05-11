@@ -45,10 +45,22 @@ class ChatController {
     var Seller = doc["chatRoomId"];
     return Seller;
   }
-  static Future<void> getChatGroupBuyer(
-      String buyerId
+
+
+
+
+  static Future<String> getChatGroupBuyer(
+      String sellerId, String buyerId
       ) async{
-    await FirebaseFirestore.instance
-        .collection("ChatGroup").where("buyer", isEqualTo: buyerId).get();
+    QuerySnapshot ref = await FirebaseFirestore.instance
+        .collection("ChatGroup")
+        .where("seller", isEqualTo:sellerId).where("buyer",isEqualTo:buyerId)
+        .get();
+    List<QueryDocumentSnapshot> data = ref.docs;
+    for (int a = 0; a < data.length; a++) {
+      return fromJSON(data[a].data());
+      //return doc!["chatRoomId"];
+    }
+    return "-1";
   }
 }

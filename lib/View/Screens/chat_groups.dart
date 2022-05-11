@@ -152,7 +152,7 @@ class _ChatGroupsState extends State<ChatGroups> {
                       ),
                     );
                   },
-                  title: Text(document["buyer"],style: TextStyle(color: Colors.white,fontSize: 18),),
+                  title: Text(document["buyerName"],style: TextStyle(color: Colors.white,fontSize: 18),),
                 ),
               );
 

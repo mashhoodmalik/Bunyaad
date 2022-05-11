@@ -23,8 +23,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
 
   TextEditingController message = new TextEditingController();
   FocusNode focusNode = new FocusNode();
-
-
+  ScrollController scrollController = new ScrollController();
   Widget ChatMessageList(){
     return StreamBuilder(
         stream: FirebaseFirestore.instance
@@ -36,6 +35,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
             );
           }
           return ListView(
+            controller: scrollController,
             children: snapshot.data!.docs.map((document){
               // print("hello");
               return
@@ -83,6 +83,11 @@ class _ConversationScreenState extends State<ConversationScreen> {
     await ChatController.sendConversationMessage(widget.chatRoomId, chatMessage).whenComplete((){
     message.clear();
     focusNode.unfocus();
+    scrollController.animateTo(
+      scrollController.position.maxScrollExtent,
+      duration: Duration(seconds: 2),
+      curve: Curves.fastOutSlowIn,
+    );
     });
   }
 

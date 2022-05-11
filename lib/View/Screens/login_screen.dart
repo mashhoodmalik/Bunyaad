@@ -97,6 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 style: Style.primaryButtonStyle(),
                 onPressed: () async {
                   print("Logged in");
+
                   print(emailController.text.toString());
                   print(passwordController.text.toString());
                   CustomWidget.circularProgressIndicator(context);

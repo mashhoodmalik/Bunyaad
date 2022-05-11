@@ -1,6 +1,8 @@
 import 'package:bunyaad/View/Screens/create_seller_account.dart';
 import 'package:bunyaad/View/Screens/seller_dashboard.dart';
 import 'package:bunyaad/View/Screens/seller_signup.dart';
+import 'package:bunyaad/View/SubScreens/buyer_order.dart';
+import 'package:bunyaad/View/SubScreens/edit_gig.dart';
 import 'package:bunyaad/View/SubScreens/home_screen.dart';
 import 'package:bunyaad/View/Screens/login_screen.dart';
 import 'package:bunyaad/View/Screens/signup_screen.dart';
@@ -27,7 +29,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Bunyaad',
+      debugShowCheckedModeBanner: true,
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -40,6 +43,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blueGrey,
       ),
+      // home: EditGig(productDescription: "Desc",productName: "bricks",productPrice: "12"),
       home: LoginScreen(),//const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -89,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text("Fuck YOU"),
+        title: Text("Bunyaad"),
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it

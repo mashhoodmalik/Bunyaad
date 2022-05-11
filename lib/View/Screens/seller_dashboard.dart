@@ -1,10 +1,14 @@
+import 'package:bunyaad/View/SubScreens/create_gig.dart';
 import 'package:bunyaad/View/SubScreens/seller_account_settings.dart';
+import 'package:bunyaad/View/SubScreens/seller_gig.dart';
+import 'package:bunyaad/View/SubScreens/seller_orders.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../Controller/login_controller.dart';
 import '../Model/Style.dart';
+import '../SubScreens/order_detail.dart';
 import '../SubScreens/seller_buyerrequest.dart';
 import 'chat_groups.dart';
 import 'login_screen.dart';
@@ -103,8 +107,16 @@ class _SellerDashboardState extends State<SellerDashboard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                buildCard(icon: Icons.description,heading: "My Gigs",onPress: (){
-                  print("My Gigs");
+                buildCard(icon: Icons.description,heading: "My Gigs",onPress: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return
+                          SellerGig();
+                      },
+                    ),
+                  );
                 }),
                 SizedBox(width: 24.0,),
                 buildCard(icon: Icons.chat_bubble_outline,heading: "Chat",onPress: () async {
@@ -115,6 +127,36 @@ class _SellerDashboardState extends State<SellerDashboard> {
                       builder: (context) {
                         return
                           ChatGroups();
+                      },
+                    ),
+                  );
+                }),
+              ],
+            ),
+            const SizedBox(height: 24,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                buildCard(icon: Icons.description,heading: "My Orders",onPress: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return
+                          SellerOrders();
+                      },
+                    ),
+                  );
+                }),
+                SizedBox(width: 24.0,),
+                buildCard(icon: Icons.chat_bubble_outline,heading: "Pending Orders",onPress: () async {
+                  print("my orders");
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return
+                          OrderDetail();
                       },
                     ),
                   );

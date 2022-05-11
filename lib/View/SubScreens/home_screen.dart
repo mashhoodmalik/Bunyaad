@@ -2,10 +2,12 @@ import 'package:bunyaad/Controller/chat_controller.dart';
 import 'package:bunyaad/Model/chat_group.dart';
 import 'package:bunyaad/Model/variables.dart';
 import 'package:bunyaad/View/Model/Style.dart';
+import 'package:bunyaad/View/SubScreens/buyer_gig_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../Widgets/Search.dart';
 import 'conversation_screen.dart';
+import 'edit_gig.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -18,6 +20,8 @@ class _HomeScreenState extends State<HomeScreen> {
   FocusNode focusNode = FocusNode();
   bool isLiked = true;
 
+  String searchText = "";
+  bool isSearched = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,15 +64,38 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: SearchBar(
-                  searchFunction: () {},
-                  onChanged: (value) {},
+                  searchFunction: () {
+
+                    if( searchText != "") {
+                      focusNode.unfocus();
+                      setState(() {
+                          isSearched =true;
+                        });
+                    }
+                    
+                  },
+                  onChanged: (value) {
+                    if(value.isEmpty){
+                      isSearched = false;
+                      searchText = "";
+                      setState(() {
+
+                      });
+
+                    }
+                    else{
+                      
+                      searchText = value.toString();
+                    }
+                    
+                  },
                   focusNode: focusNode),
             ),
-            SizedBox(
+            const SizedBox(
               height: 24,
             ),
             Expanded(
-              child: getAllSellerTile(),
+              child: isSearched?searchGigTile(searchText):getGigTile(),
               /* ListView.separated(
                   itemCount: 5,
                   itemBuilder: (BuildContext context,index){
@@ -83,6 +110,44 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+
+
+  Widget searchGigTile(String searchName) {
+    return StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection("serviceinfo").where("NameL",arrayContains: searchName.toLowerCase())
+            .snapshots(),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return ListView(
+            children: snapshot.data!.docs.map((document) {
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: buildDescriptionCard(
+                    context,
+                    document["userimage"],
+                    document["Name"],
+                    document["Description"],
+                    document["Price"],
+                    document["sid"],
+                    document["uid"],
+                    document["sellerName"],
+                    // document["sid"]
+                ),
+              );
+            }).toList(),
+          );
+        });
+  }
+
+
+
+
+
   Widget getAllSellerTile() {
     return StreamBuilder(
         stream: FirebaseFirestore.instance.collection("seller").snapshots(),
@@ -96,7 +161,9 @@ class _HomeScreenState extends State<HomeScreen> {
           return ListView(
             children: snapshot.data!.docs.map((document) {
               // print("hello");
-              return Container(
+              return
+
+                Container(
                 margin: EdgeInsets.all(8),
                 decoration: BoxDecoration(
                     color: Colors.blue,
@@ -108,14 +175,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: ElevatedButton.styleFrom(
                         primary: Style.defaultHeadingColor),
                     onPressed: () async {
+                      //Checks if the buyer has already a chat group with seller or not?? document[id] is seller id
                       String value =
-                          await ChatController.getChatGroupSeller(document["id"]);
+                          await ChatController.getChatGroupBuyer(document["id"],Variables.buyer!.docId);
+
                       if (value == "-1") {
+                        // this code block works if buyer has no chat group with seller
                         ChatGroup chatGroup = ChatGroup();
                         chatGroup.populateBuyer(
                             chatRoomId: "",
                             seller: document["id"],
-                            sellerName: document["email"],
+                            sellerName: document["name"],
                             buyer: Variables.buyer!.docId,
                             buyerName: Variables.buyer!.name);
                         chatGroup.chatRoomId =
@@ -132,6 +202,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       }
                       else{
+
+                        // works if room is already created
                         await Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -169,88 +241,164 @@ class _HomeScreenState extends State<HomeScreen> {
         });
   }
 
-  Widget buildDescriptionCard(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16),
-      decoration: BoxDecoration(
-        border: Border.all(),
-        // borderRadius: BorderRadius.circular(25),
-        // color:  Style.defaultHeadingColor,
-      ),
-      height: 200,
-      width: MediaQuery.of(context).size.width * 0.9,
-      child: Column(
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                flex: 9,
-                child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                  color: Colors.black87,
-                  height: 100,
+
+
+
+  Widget getGigTile() {
+    return StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection("serviceinfo")
+            .snapshots(),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return ListView(
+            children: snapshot.data!.docs.map((document) {
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: buildDescriptionCard(
+                    context,
+                    document["userimage"],
+                    document["Name"],
+                    document["Description"],
+                    document["Price"],
+                    document["sid"],
+                    document["uid"],
+                    document["sellerName"],
                 ),
-              ),
-              Expanded(
-                  flex: 1,
-                  child: GestureDetector(
-                      onTap: () {
-                        isLiked = !isLiked;
-                        setState(() {});
-                      },
-                      child: isLiked == true
-                          ? Icon(
-                              Icons.favorite,
-                              color: Colors.red,
-                            )
-                          : Icon(Icons.favorite_border))),
-            ],
+              );
+            }).toList(),
+          );
+        });
+  }
+
+  Widget buildDescriptionCard(BuildContext context, String image,
+      String productName, String productDesc, String productPrice,String sid,String sellerID,String sellerName,
+      ) {
+    return GestureDetector(
+      onTap: ()async{
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return
+                BuyerGigView(
+                  productId: sid,productPrice: productPrice, productName: productName, productDescription: productDesc,imageLink: image, sellerId : sellerID, sellerName: sellerName,);
+            },
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 8),
+        decoration: BoxDecoration(
+          border: Border.all(),
+        ),
+        height: 250,
+        width: MediaQuery.of(context).size.width * 0.9,
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    color: Colors.blue,
-                    width: 32,
-                    height: 32,
-                  ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      primary: Style.defaultHeadingColor),
+                  onPressed: () async {
+                    String value =
+                    await ChatController.getChatGroupBuyer(sellerID,Variables.buyer!.docId);
+                    if (value == "-1") {
+                      ChatGroup chatGroup = ChatGroup();
+                      chatGroup.populateBuyer(
+                          chatRoomId: "",
+                          seller: sellerID,
+                          sellerName: sellerName,
+                          buyer: Variables.buyer!.docId,
+                          buyerName: Variables.buyer!.name);
+                      chatGroup.chatRoomId =
+                      await ChatController.createChatGroup(chatGroup);
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return ConversationScreen(
+                                chatRoomId: chatGroup.chatRoomId,
+                                userId: Variables.buyer!.docId);
+                          },
+                        ),
+                      );
+                    }
+                    else{
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return ConversationScreen(
+                                chatRoomId: value,
+                                userId: Variables.buyer!.docId);
+                          },
+                        ),
+                      );
+                    }
+                  },
+                  child: Text("Chat"),
                 ),
-                Expanded(
-                  flex: 8,
-                  child: Column(
-                    children: [
-                      Text(
-                        "Item Name",
-                        style: TextStyle(
-                            color: Colors.black87,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        "Short Description",
-                        style: TextStyle(
-                            color: Colors.black87,
-                            fontStyle: FontStyle.italic,
-                            fontSize: 16),
-                      )
-                    ],
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Text("Price"),
-                )
               ],
             ),
-          )
-        ],
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 16),
+              height: 110,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(image),
+                  )),
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 8,
+                    child: Column(
+                      children: [
+                        Text(
+                          productName,
+                          style: TextStyle(
+                              color: Colors.black87,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          productDesc,
+                          overflow: TextOverflow.fade,
+                          maxLines: 1,
+                          softWrap: false,
+                          style: TextStyle(
+                              color: Colors.black87,
+                              fontStyle: FontStyle.italic,
+                              fontSize: 16),
+                        )
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Text(productPrice),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
